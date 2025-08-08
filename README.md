@@ -30,6 +30,7 @@
             background-color: var(--light);
             color: var(--dark);
             transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
         }
         body.dark-mode {
             background-color: var(--dark);
@@ -49,10 +50,20 @@
             display: flex;
             flex-direction: column;
             transition: background-color 0.3s;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+            z-index: 100;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
         }
         body.dark-mode .sidebar {
             background-color: #2D3748;
             border-right-color: #4A5568;
+        }
+        .sidebar.open {
+            transform: translateX(0);
         }
         .logo {
             display: flex;
@@ -76,12 +87,13 @@
         .nav-link {
             display: flex;
             align-items: center;
-            padding: 12px 15px;
+            padding: 16px 20px;
             border-radius: 8px;
             color: var(--gray);
             text-decoration: none;
             transition: all 0.2s;
             cursor: pointer;
+            font-size: 16px;
         }
         .nav-link:hover, .nav-link.active {
             background-color: rgba(79, 70, 229, 0.1);
@@ -92,7 +104,9 @@
         }
         .nav-link i {
             margin-right: 12px;
-            font-size: 18px;
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
         }
         .filters {
             margin-top: auto;
@@ -109,10 +123,10 @@
             gap: 8px;
         }
         .filter-tag {
-            padding: 6px 12px;
+            padding: 8px 16px;
             background-color: var(--light-gray);
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 14px;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -132,15 +146,24 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
         }
+        .main-content.sidebar-open {
+            margin-left: 260px;
+        }
+        /* Header */
         .header {
             background-color: var(--white);
-            padding: 20px 30px;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--light-gray);
             transition: background-color 0.3s;
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
         body.dark-mode .header {
             background-color: #2D3748;
@@ -150,18 +173,37 @@
             display: flex;
             align-items: center;
         }
+        .menu-toggle {
+            display: block;
+            margin-right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .menu-toggle:hover {
+            background-color: var(--light-gray);
+            color: var(--primary);
+        }
+        body.dark-mode .menu-toggle:hover {
+            background-color: #4A5568;
+        }
         .view-toggle {
             display: flex;
-            margin-left: 20px;
             background-color: var(--light-gray);
             border-radius: 8px;
             overflow: hidden;
+            margin-left: 10px;
         }
         body.dark-mode .view-toggle {
             background-color: #4A5568;
         }
         .view-btn {
-            padding: 8px 16px;
+            padding: 10px 16px;
             background: none;
             border: none;
             cursor: pointer;
@@ -169,6 +211,7 @@
             font-weight: 500;
             color: var(--gray);
             transition: all 0.2s;
+            white-space: nowrap;
         }
         .view-btn.active {
             background-color: var(--primary);
@@ -180,15 +223,22 @@
         }
         .search-box {
             position: relative;
-            margin-right: 20px;
+            margin-right: 15px;
+            display: none;
+        }
+        @media (min-width: 768px) {
+            .search-box {
+                display: block;
+            }
         }
         .search-box input {
             padding: 10px 15px 10px 40px;
             border: 1px solid var(--light-gray);
             border-radius: 8px;
-            width: 250px;
+            width: 200px;
             background-color: var(--light);
             transition: all 0.2s;
+            font-size: 14px;
         }
         body.dark-mode .search-box input {
             background-color: #1A202C;
@@ -203,7 +253,7 @@
             color: var(--gray);
         }
         .btn {
-            padding: 10px 20px;
+            padding: 12px 20px;
             border: none;
             border-radius: 8px;
             font-size: 14px;
@@ -212,6 +262,7 @@
             display: flex;
             align-items: center;
             transition: all 0.2s;
+            white-space: nowrap;
         }
         .btn-primary {
             background-color: var(--primary);
@@ -220,26 +271,39 @@
         .btn-primary:hover {
             background-color: var(--primary-dark);
         }
+        .btn-success {
+            background-color: var(--secondary);
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #059669;
+        }
         .btn i {
             margin-right: 8px;
         }
         .theme-toggle {
-            margin-left: 15px;
+            margin-left: 10px;
             background: none;
             border: none;
             font-size: 20px;
             color: var(--gray);
             cursor: pointer;
             transition: color 0.2s;
+            padding: 8px;
+            border-radius: 6px;
         }
         .theme-toggle:hover {
+            background-color: var(--light-gray);
             color: var(--primary);
+        }
+        body.dark-mode .theme-toggle:hover {
+            background-color: #4A5568;
         }
         /* Calendar Views */
         .calendar-container {
             flex: 1;
             overflow: hidden;
-            padding: 20px 30px;
+            padding: 15px;
             background-color: var(--light);
             transition: background-color 0.3s;
             display: flex;
@@ -252,7 +316,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .date-navigation {
             display: flex;
@@ -264,8 +330,8 @@
             font-size: 18px;
             color: var(--gray);
             cursor: pointer;
-            padding: 5px 10px;
-            border-radius: 4px;
+            padding: 8px 12px;
+            border-radius: 6px;
             transition: all 0.2s;
         }
         .date-navigation button:hover {
@@ -276,12 +342,13 @@
             background-color: #4A5568;
         }
         .current-date {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 700;
-            margin: 0 15px;
+            margin: 0 10px;
+            text-align: center;
         }
         .today-btn {
-            padding: 6px 12px;
+            padding: 8px 16px;
             background-color: var(--light-gray);
             border: none;
             border-radius: 6px;
@@ -322,6 +389,7 @@
             min-width: 720px;
             height: 40px;
             border-bottom: 1px solid var(--light-gray);
+            flex-shrink: 0;
         }
         body.dark-mode .hours-container {
             border-bottom-color: #4A5568;
@@ -333,6 +401,7 @@
             color: var(--gray);
             padding: 10px 0;
             border-right: 1px solid var(--light-gray);
+            flex-shrink: 0;
         }
         body.dark-mode .hour {
             border-right-color: #4A5568;
@@ -460,6 +529,7 @@
             min-width: 700px;
             height: 40px;
             border-bottom: 1px solid var(--light-gray);
+            flex-shrink: 0;
         }
         body.dark-mode .week-header {
             border-bottom-color: #4A5568;
@@ -470,6 +540,7 @@
             font-weight: 600;
             padding: 10px 0;
             border-right: 1px solid var(--light-gray);
+            flex-shrink: 0;
         }
         body.dark-mode .day-header {
             border-right-color: #4A5568;
@@ -486,6 +557,7 @@
             width: 100px;
             border-right: 1px solid var(--light-gray);
             position: relative;
+            flex-shrink: 0;
         }
         body.dark-mode .day-column {
             border-right-color: #4A5568;
@@ -530,9 +602,10 @@
         }
         .month-header {
             display: flex;
-            min-width: 1400px;
+            min-width: 700px;
             height: 40px;
             border-bottom: 1px solid var(--light-gray);
+            flex-shrink: 0;
         }
         body.dark-mode .month-header {
             border-bottom-color: #4A5568;
@@ -544,19 +617,21 @@
             font-size: 12px;
             padding: 10px 0;
             border-right: 1px solid var(--light-gray);
+            flex-shrink: 0;
         }
         body.dark-mode .month-day-header {
             border-right-color: #4A5568;
         }
         .month-days {
             display: flex;
-            min-width: 1400px;
+            min-width: 700px;
             flex: 1;
         }
         .month-day-column {
             width: 45px;
             border-right: 1px solid var(--light-gray);
             position: relative;
+            flex-shrink: 0;
         }
         body.dark-mode .month-day-column {
             border-right-color: #4A5568;
@@ -632,14 +707,18 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .recurring-task-title {
             font-size: 18px;
             font-weight: 600;
+            flex: 1;
         }
         .recurring-task-actions {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
         .recurring-task-description {
             color: var(--gray);
@@ -649,10 +728,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .recurring-task-tags {
             display: flex;
             gap: 5px;
+            flex-wrap: wrap;
         }
         .recurring-task-tag {
             font-size: 12px;
@@ -662,8 +744,37 @@
             color: white;
         }
         .btn-small {
-            padding: 6px 12px;
+            padding: 8px 12px;
             font-size: 12px;
+        }
+        /* Quick Add Calendar */
+        .quick-add-calendar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--light-gray);
+        }
+        body.dark-mode .quick-add-calendar {
+            border-top-color: #4A5568;
+        }
+        .quick-add-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .quick-add-date, .quick-add-time {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        body.dark-mode .quick-add-date, body.dark-mode .quick-add-time {
+            background-color: #1A202C;
+            border-color: #4A5568;
+            color: var(--light);
         }
         /* Task Modal */
         .modal {
@@ -677,12 +788,13 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
         .modal-content {
             background-color: var(--white);
             border-radius: 12px;
-            width: 90%;
-            max-width: 600px;
+            width: 100%;
+            max-width: 500px;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: var(--shadow-lg);
@@ -722,9 +834,15 @@
             color: var(--gray);
             cursor: pointer;
             transition: color 0.2s;
+            padding: 5px;
+            border-radius: 4px;
         }
         .modal-close:hover {
             color: var(--danger);
+            background-color: var(--light-gray);
+        }
+        body.dark-mode .modal-close:hover {
+            background-color: #4A5568;
         }
         .modal-body {
             padding: 20px;
@@ -842,6 +960,8 @@
         }
         .subtask-checkbox {
             margin-right: 10px;
+            width: 18px;
+            height: 18px;
         }
         .subtask-text {
             flex: 1;
@@ -851,6 +971,14 @@
             border: none;
             color: var(--danger);
             cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .subtask-remove:hover {
+            background-color: var(--light-gray);
+        }
+        body.dark-mode .subtask-remove:hover {
+            background-color: #4A5568;
         }
         .add-subtask {
             display: flex;
@@ -908,20 +1036,20 @@
         }
         .form-check-input {
             margin-right: 10px;
+            width: 18px;
+            height: 18px;
         }
         /* Stats View */
         .stats-container {
             display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 15px;
         }
         .stat-card {
             background-color: var(--white);
             border-radius: 12px;
             padding: 20px;
             box-shadow: var(--shadow);
-            flex: 1;
-            min-width: 200px;
             text-align: center;
         }
         body.dark-mode .stat-card {
@@ -937,55 +1065,39 @@
             font-weight: 700;
             color: var(--primary);
         }
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                left: -260px;
-                height: 100%;
-                z-index: 100;
-                box-shadow: var(--shadow-lg);
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--secondary);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            z-index: 2000;
+            animation: slideIn 0.3s ease-out;
+            max-width: 80%;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
             }
-            .sidebar.open {
-                left: 0;
-            }
-            .menu-toggle {
-                display: block;
-                margin-right: 15px;
-                background: none;
-                border: none;
-                font-size: 20px;
-                color: var(--gray);
-                cursor: pointer;
-            }
-            .header-left {
-                width: 100%;
-            }
-            .search-box {
-                display: none;
-            }
-            .view-toggle {
-                margin-left: auto;
-            }
-            .daily-timeline,
-            .weekly-timeline,
-            .month-timeline {
-                flex-direction: column;
-            }
-            .hours-container,
-            .week-header,
-            .month-header {
-                min-width: 100%;
-                overflow-x: auto;
-            }
-            .tasks-container,
-            .week-days,
-            .month-days {
-                min-width: 100%;
-                overflow-x: auto;
+            to {
+                transform: translateX(0);
+                opacity: 1;
             }
         }
+        /* Responsive */
         @media (min-width: 769px) {
+            .sidebar {
+                transform: translateX(0);
+                position: relative;
+            }
+            .main-content {
+                margin-left: 260px;
+            }
             .menu-toggle {
                 display: none;
             }
@@ -1054,7 +1166,7 @@
         </aside>
         
         <!-- Main Content -->
-        <main class="main-content">
+        <main class="main-content" id="mainContent">
             <!-- Header -->
             <header class="header">
                 <div class="header-left">
@@ -1092,7 +1204,7 @@
                             <button id="prevDay">
                                 <i class="fas fa-chevron-left"></i>
                             </button>
-                            <div class="current-date" id="currentDate">Hoy, 15 de junio de 2023</div>
+                            <div class="current-date" id="currentDate">Hoy</div>
                             <button id="nextDay">
                                 <i class="fas fa-chevron-right"></i>
                             </button>
@@ -1117,7 +1229,7 @@
                             <button id="prevWeek">
                                 <i class="fas fa-chevron-left"></i>
                             </button>
-                            <div class="current-date" id="currentWeek">12 - 18 de junio de 2023</div>
+                            <div class="current-date" id="currentWeek">Semana</div>
                             <button id="nextWeek">
                                 <i class="fas fa-chevron-right"></i>
                             </button>
@@ -1142,7 +1254,7 @@
                             <button id="prevMonth">
                                 <i class="fas fa-chevron-left"></i>
                             </button>
-                            <div class="current-date" id="currentMonth">Junio 2023</div>
+                            <div class="current-date" id="currentMonth">Mes</div>
                             <button id="nextMonth">
                                 <i class="fas fa-chevron-right"></i>
                             </button>
@@ -1327,6 +1439,49 @@
         </div>
     </div>
     
+    <!-- Add Recurring Task to Calendar Modal -->
+    <div class="modal" id="addRecurringToCalendarModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Agregar Tarea al Calendario</h2>
+                <button class="modal-close" id="addRecurringToCalendarClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Tarea</label>
+                    <div class="form-control" id="recurringTaskTitle" style="background-color: var(--light-gray); font-weight: 600;" readonly></div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="recurringTaskDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Hora</label>
+                        <input type="time" class="form-control" id="recurringTaskTime" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Duración (minutos)</label>
+                    <input type="number" class="form-control" id="recurringTaskDuration" placeholder="30" min="15" step="15">
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelAddRecurringBtn">Cancelar</button>
+                <button class="btn btn-success" id="confirmAddRecurringBtn">
+                    <i class="fas fa-calendar-plus"></i> Agregar al Calendario
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <script>
         // Global variables
         const app = {
@@ -1338,6 +1493,7 @@
             selectedPriority: 'medium',
             draggedTask: null,
             isRecurringTask: false,
+            selectedRecurringTask: null,
             elements: {
                 dailyView: document.getElementById('dailyView'),
                 weeklyView: document.getElementById('weeklyView'),
@@ -1356,12 +1512,18 @@
                 taskModal: document.getElementById('taskModal'),
                 taskForm: document.getElementById('taskForm'),
                 sidebar: document.getElementById('sidebar'),
+                mainContent: document.getElementById('mainContent'),
                 themeToggle: document.getElementById('themeToggle'),
                 modalTitle: document.getElementById('modalTitle'),
                 dateTimeRow: document.getElementById('dateTimeRow'),
                 recurringOptions: document.getElementById('recurringOptions'),
                 isRecurringCheckbox: document.getElementById('isRecurring'),
-                recurringFrequencyGroup: document.getElementById('recurringFrequencyGroup')
+                recurringFrequencyGroup: document.getElementById('recurringFrequencyGroup'),
+                addRecurringToCalendarModal: document.getElementById('addRecurringToCalendarModal'),
+                recurringTaskTitle: document.getElementById('recurringTaskTitle'),
+                recurringTaskDate: document.getElementById('recurringTaskDate'),
+                recurringTaskTime: document.getElementById('recurringTaskTime'),
+                recurringTaskDuration: document.getElementById('recurringTaskDuration')
             }
         };
 
@@ -1389,6 +1551,7 @@
             // Set today's date as default
             const today = new Date();
             document.getElementById('taskDate').valueAsDate = today;
+            app.elements.recurringTaskDate.valueAsDate = today;
         };
 
         app.setupEventListeners = function() {
@@ -1406,6 +1569,10 @@
                     e.preventDefault();
                     const view = link.getAttribute('data-view');
                     app.switchView(view);
+                    // Close sidebar on mobile after navigation
+                    if (window.innerWidth < 769) {
+                        app.elements.sidebar.classList.remove('open');
+                    }
                 });
             });
             
@@ -1489,6 +1656,19 @@
                 app.saveTask();
             });
             
+            // Add recurring task to calendar modal
+            document.getElementById('addRecurringToCalendarClose').addEventListener('click', () => {
+                app.closeAddRecurringToCalendarModal();
+            });
+            
+            document.getElementById('cancelAddRecurringBtn').addEventListener('click', () => {
+                app.closeAddRecurringToCalendarModal();
+            });
+            
+            document.getElementById('confirmAddRecurringBtn').addEventListener('click', () => {
+                app.addRecurringTaskToCalendar();
+            });
+            
             // Priority selector
             document.querySelectorAll('.priority-option').forEach(option => {
                 option.addEventListener('click', () => {
@@ -1541,6 +1721,18 @@
             // Mobile menu toggle
             document.getElementById('menuToggle').addEventListener('click', () => {
                 app.elements.sidebar.classList.toggle('open');
+                app.elements.mainContent.classList.toggle('sidebar-open');
+            });
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth < 769 && 
+                    !app.elements.sidebar.contains(e.target) && 
+                    !document.getElementById('menuToggle').contains(e.target) &&
+                    app.elements.sidebar.classList.contains('open')) {
+                    app.elements.sidebar.classList.remove('open');
+                    app.elements.mainContent.classList.remove('sidebar-open');
+                }
             });
             
             // Filter tags
@@ -1772,6 +1964,20 @@
             document.querySelector('.priority-option[data-priority="medium"]').classList.add('selected');
         };
 
+        app.openAddRecurringToCalendarModal = function(recurringTask) {
+            app.selectedRecurringTask = recurringTask;
+            app.elements.recurringTaskTitle.value = recurringTask.title;
+            app.elements.recurringTaskDate.valueAsDate = new Date();
+            app.elements.recurringTaskTime.value = '09:00';
+            app.elements.recurringTaskDuration.value = 30;
+            app.elements.addRecurringToCalendarModal.style.display = 'flex';
+        };
+
+        app.closeAddRecurringToCalendarModal = function() {
+            app.elements.addRecurringToCalendarModal.style.display = 'none';
+            app.selectedRecurringTask = null;
+        };
+
         app.addTag = function(tagText) {
             if (tagText && !app.tags.includes(tagText)) {
                 app.tags.push(tagText);
@@ -1840,7 +2046,7 @@
         app.saveTask = function() {
             const title = document.getElementById('taskTitle').value.trim();
             if (!title) {
-                alert('Por favor, introduce un título para la tarea');
+                app.showNotification('Por favor, introduce un título para la tarea');
                 return;
             }
             
@@ -1909,6 +2115,71 @@
             
             app.updateStats();
             app.closeTaskModal();
+        };
+
+        app.addRecurringTaskToCalendar = function() {
+            if (!app.selectedRecurringTask) return;
+            
+            const date = app.elements.recurringTaskDate.value;
+            const time = app.elements.recurringTaskTime.value;
+            const duration = parseInt(app.elements.recurringTaskDuration.value) || 30;
+            
+            if (!date || !time) {
+                app.showNotification('Por favor, selecciona una fecha y hora');
+                return;
+            }
+            
+            // Create a new task from the recurring task template
+            const task = {
+                id: 'task-' + Date.now(),
+                title: app.selectedRecurringTask.title,
+                description: app.selectedRecurringTask.description || '',
+                date,
+                time,
+                duration,
+                priority: app.selectedRecurringTask.priority,
+                tags: [...app.selectedRecurringTask.tags],
+                reminder: app.selectedRecurringTask.reminder || 'none',
+                subtasks: app.selectedRecurringTask.subtasks.map(subtask => ({
+                    text: subtask.text,
+                    completed: false
+                })),
+                status: 'pending'
+            };
+            
+            app.tasks.push(task);
+            app.saveTasks();
+            app.closeAddRecurringToCalendarModal();
+            
+            // Show success message
+            app.showNotification('Tarea agregada al calendario correctamente');
+            
+            // Switch to daily view and show the date
+            app.currentDate = new Date(date);
+            app.switchView('daily');
+            app.renderDailyTasks();
+            app.updateStats();
+        };
+
+        app.showNotification = function(message) {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(n => n.remove());
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideIn 0.3s ease-out reverse';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
         };
 
         app.saveTasks = function() {
@@ -2199,8 +2470,11 @@
                     <div class="recurring-task-header">
                         <div class="recurring-task-title">${task.title}</div>
                         <div class="recurring-task-actions">
+                            <button class="btn btn-small btn-success" onclick="app.openAddRecurringToCalendarModal(app.recurringTasks.find(t => t.id === '${task.id}'))">
+                                <i class="fas fa-calendar-plus"></i> Agregar
+                            </button>
                             <button class="btn btn-small btn-secondary" onclick="app.deleteRecurringTask('${task.id}')">
-                                <i class="fas fa-trash"></i> Eliminar
+                                <i class="fas fa-trash"></i>
                             </button>
                         </div>
                     </div>
@@ -2249,65 +2523,4 @@
                 
                 // Set color based on priority
                 if (task.priority === 'high') {
-                    taskElement.style.borderLeft = '4px solid var(--danger)';
-                } else if (task.priority === 'medium') {
-                    taskElement.style.borderLeft = '4px solid var(--warning)';
-                } else {
-                    taskElement.style.borderLeft = '4px solid var(--secondary)';
-                }
-                
-                const taskDate = new Date(task.date);
-                const formattedDate = taskDate.toLocaleDateString('es-ES', { 
-                    weekday: 'short', 
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: 'numeric' 
-                });
-                
-                taskElement.innerHTML = `
-                    <div class="recurring-task-header">
-                        <div class="recurring-task-title">${task.title}</div>
-                        <div class="recurring-task-actions">
-                            <button class="btn btn-small btn-secondary" onclick="app.deleteTask('${task.id}')">
-                                <i class="fas fa-trash"></i> Eliminar
-                            </button>
-                        </div>
-                    </div>
-                    <div class="recurring-task-description">${task.description || ''}</div>
-                    <div class="recurring-task-footer">
-                        <div>
-                            <div>${formattedDate} a las ${task.time}</div>
-                            <div>Duración: ${task.duration} minutos</div>
-                        </div>
-                        <div class="task-priority priority-${task.priority}"></div>
-                    </div>
-                `;
-                
-                container.appendChild(taskElement);
-            });
-        };
-
-        app.updateStats = function() {
-            // Count completed tasks (tasks with all subtasks completed)
-            const completedTasks = app.tasks.filter(task => {
-                if (task.subtasks.length === 0) return false;
-                return task.subtasks.every(subtask => subtask.completed);
-            }).length;
-            
-            // Count pending tasks
-            const pendingTasks = app.tasks.filter(task => {
-                if (task.subtasks.length === 0) return true;
-                return !task.subtasks.every(subtask => subtask.completed);
-            }).length;
-            
-            // Count high priority tasks
-            const highPriorityTasks = app.tasks.filter(task => task.priority === 'high').length;
-            
-            // Update the DOM
-            document.getElementById('completedTasksCount').textContent = completedTasks;
-            document.getElementById('pendingTasksCount').textContent = pendingTasks;
-            document.getElementById('highPriorityTasksCount').textContent = highPriorityTasks;
-        };
-    </script>
-</body>
-</html>
+                    taskElement.style.borderLeft = '4px solid var(--
